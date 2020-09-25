@@ -1,3 +1,8 @@
+#
+# Makefile with some common workflow for dev, build and test
+#
+export GOPROXY?=direct
+
 protoc-setup:
 	cd meshes
 	wget https://raw.githubusercontent.com/layer5io/meshery/master/meshes/meshops.proto
@@ -29,8 +34,10 @@ tidy:
 
 .PHONY: golang-ci
 golangci-lint: $(GOLANGLINT)
-	@echo
+	@echo "Golang-ci checking"
 	$(GOPATH)/bin/golangci-lint run
 
 $(GOLANGLINT):
-	(cd /; GO111MODULE=on GOPROXY="https://goproxy.cn,direct" GOSUMDB=off go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.30.0)
+	(cd /; GO111MODULE=on GOSUMDB=off go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.30.0)
+	# aisuko local
+	#(cd /; GO111MODULE=on GOPROXY="https://goproxy.cn,direct" GOSUMDB=off go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.30.0)
